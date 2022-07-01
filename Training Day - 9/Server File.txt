@@ -1,0 +1,18 @@
+var express = require('express');
+var router = express.Router();
+var MongoClient = require('mongodb").MongoClient;
+router.get('/',function(req, res, next){
+res.render('login'.{msg:""});
+});
+router.get('/checklogin', function(req, res, next){
+var userid=req.query.userid;
+var password=req.query.password;
+var json={userid:userid, password:password};
+var url="mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db){
+var dbo = db.db('mydb');
+dbo.collection("login").find(json).toArray(function(err,data){
+var len = db.db('mydb');
+if (len==1){ res.render("login",{msg:"successfully login"}) ; }
+else{ res.render("login",{msg:"invalid user id & password"}) ; }
+}); }); }); module.exports = router;
